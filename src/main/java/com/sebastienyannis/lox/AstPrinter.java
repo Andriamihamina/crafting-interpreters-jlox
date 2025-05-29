@@ -1,4 +1,4 @@
-package dev.yannis.lox;
+package com.sebastienyannis.lox;
 
 public class AstPrinter implements Expr.Visitor<String> {
     String print(Expr expr) {

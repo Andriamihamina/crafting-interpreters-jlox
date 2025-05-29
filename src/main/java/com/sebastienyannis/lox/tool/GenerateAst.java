@@ -1,4 +1,4 @@
-package dev.yannis.lox.tool;
+package com.sebastienyannis.lox.tool;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -25,7 +25,7 @@ public class GenerateAst {
         throws IOException {
         String path = outputDir + "/" + baseName + ".java";
         PrintWriter writer = new PrintWriter(path, "UTF-8");
-        writer.println("package dev.yannis.lox;");
+        writer.println("package com.sebastienyannis.lox;");
         writer.println();
         writer.println("import java.util.List;");
         writer.println();

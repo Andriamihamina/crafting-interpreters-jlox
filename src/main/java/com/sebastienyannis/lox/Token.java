@@ -1,4 +1,4 @@
-package dev.yannis.lox;
+package com.sebastienyannis.lox;
 
 public class Token {
     final TokenType type;
