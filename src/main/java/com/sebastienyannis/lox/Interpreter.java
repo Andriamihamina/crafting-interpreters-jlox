@@ -1,12 +1,16 @@
 package com.sebastienyannis.lox;
 
+import java.util.List;
+
 import javax.management.RuntimeErrorException;
 
 import com.sebastienyannis.lox.Expr.Binary;
 import com.sebastienyannis.lox.Expr.Grouping;
 import com.sebastienyannis.lox.Expr.Unary;
+import com.sebastienyannis.lox.Stmt.Expression;
+import com.sebastienyannis.lox.Stmt.Print;
 
-public class Interpreter implements Expr.Visitor<Object> {
+public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     @Override
     public Object visitLiteralExpr(Expr.Literal expr){
         return expr.value;
@@ -102,13 +106,27 @@ public class Interpreter implements Expr.Visitor<Object> {
         throw new RuntimeError(operator, "Operands must be numbers");   
     }
 
-    void interpret(Expr expression) {
+    /* void interpret(Expr expression) {
         try {
             Object value = evaluate(expression);
             System.out.println(stringify(value));
         } catch (RuntimeError e) {
             Lox.runtimeError(e);
         }
+    } */
+
+    void interpret(List<Stmt> statements) {
+        try {
+            for (Stmt statement: statements) {
+                execute(statement);
+            }
+        } catch (RuntimeError e){
+            Lox.runtimeError(e);
+        }
+    }
+
+    private void execute(Stmt stmt) {
+        stmt.accept(this);
     }
 
     private String stringify(Object object) {
@@ -123,6 +141,19 @@ public class Interpreter implements Expr.Visitor<Object> {
         }
 
         return object.toString();
+    }
+
+    @Override
+    public Void visitExpressionStmt(Expression stmt) {
+        evaluate(stmt.expression);
+        return null;
+    }
+
+    @Override
+    public Void visitPrintStmt(Print stmt) {
+        Object value = evaluate(stmt.expression);
+        System.out.println(stringify(value));
+        return null;
     }
 
 }
