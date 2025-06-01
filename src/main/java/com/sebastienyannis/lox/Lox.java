@@ -28,8 +28,10 @@ EOF
 
 
 public class Lox {
-
+    private static final Interpreter interpreter = new Interpreter();
     static boolean hadError = false;
+    static boolean hadRuntimeError = false;
+    
 
     public static void main(String[] args) throws IOException {
         if (args.length > 1) {
@@ -45,6 +47,9 @@ public class Lox {
     private static void runFile(String path) throws IOException {
         byte[] bytes = Files.readAllBytes(Paths.get(path));
         run(new String(bytes, Charset.defaultCharset()));
+
+        if (hadError) System.exit(65);
+        if (hadRuntimeError) System.exit(70);
     }
 
     private static void runPrompt() throws IOException {
@@ -67,6 +72,8 @@ public class Lox {
         if (hadError) return;
 
         System.out.println(new AstPrinter().print(expression));
+        interpreter.interpret(expression);
+
     }
 
     static void error(int line, String message) {
@@ -85,5 +92,11 @@ public class Lox {
     private static void report(int line, String where,String message) {
         System.err.println("[line " + line + "] Error" + where + ": " + message);
         hadError = true;
+    }
+
+    static void runtimeError(RuntimeError error) {
+        System.err.println(error.getMessage() +
+        "\n[line" + error.token.line + "]");
+        hadRuntimeError = true;
     }
 }
