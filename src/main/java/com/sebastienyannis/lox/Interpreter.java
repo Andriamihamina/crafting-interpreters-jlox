@@ -2,15 +2,16 @@ package com.sebastienyannis.lox;
 
 import java.util.List;
 
-import javax.management.RuntimeErrorException;
 
-import com.sebastienyannis.lox.Expr.Binary;
 import com.sebastienyannis.lox.Expr.Grouping;
 import com.sebastienyannis.lox.Expr.Unary;
+import com.sebastienyannis.lox.Expr.Variable;
 import com.sebastienyannis.lox.Stmt.Expression;
 import com.sebastienyannis.lox.Stmt.Print;
+import com.sebastienyannis.lox.Stmt.Var;
 
 public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
+    private Environment environment = new Environment();
     @Override
     public Object visitLiteralExpr(Expr.Literal expr){
         return expr.value;
@@ -154,6 +155,21 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
         Object value = evaluate(stmt.expression);
         System.out.println(stringify(value));
         return null;
+    }
+
+    @Override
+    public Void visitVarStmt(Var stmt) {
+        Object value = null;
+        if (stmt.initializer != null) {
+            value = evaluate(stmt.initializer);
+        }
+        environment.define(stmt.name.lexeme, value);
+        return null;
+    }
+
+    @Override
+    public Object visitVariableExpr(Variable expr) {
+        return environment.get(expr.name);
     }
 
 }
