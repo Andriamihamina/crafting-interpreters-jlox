@@ -2,7 +2,7 @@ package com.sebastienyannis.lox;
 
 import java.util.List;
 
-
+import com.sebastienyannis.lox.Expr.Assign;
 import com.sebastienyannis.lox.Expr.Grouping;
 import com.sebastienyannis.lox.Expr.Unary;
 import com.sebastienyannis.lox.Expr.Variable;
@@ -170,6 +170,12 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     @Override
     public Object visitVariableExpr(Variable expr) {
         return environment.get(expr.name);
+    }
+
+    @Override
+    public Object visitAssignExpr(Assign expr) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'visitAssignExpr'");
     }
 
 }
