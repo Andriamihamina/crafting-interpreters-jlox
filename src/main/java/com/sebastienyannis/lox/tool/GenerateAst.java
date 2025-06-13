@@ -1,4 +1,4 @@
-package dev.yannis.lox.tool;
+package com.sebastienyannis.lox.tool;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -16,7 +16,15 @@ public class GenerateAst {
             "Binary : Expr left, Token operator, Expr right",
             "Grouping : Expr expression",
             "Literal : Object value",
-            "Unary : Token operator, Expr right"
+            "Unary : Token operator, Expr right",
+            "Variable: Token name",
+            "Assign: Token name, Expr value"
+        ));
+
+        defineAst(outputDir, "Stmt", Arrays.asList(
+            "Expression: Expr expression",
+            "Print: Expr expression",
+            "Var: Token name, Expr initializer"
         ));
     } 
     
@@ -25,9 +33,9 @@ public class GenerateAst {
         throws IOException {
         String path = outputDir + "/" + baseName + ".java";
         PrintWriter writer = new PrintWriter(path, "UTF-8");
-        writer.println("package dev.yannis.lox;");
+        writer.println("package com.sebastienyannis.lox;");
         writer.println();
-        writer.println("import java.util.List;");
+        // writer.println("import java.util.List;");
         writer.println();
         writer.println("abstract class " + baseName + " {");
         defineVisitor(writer, baseName, types);

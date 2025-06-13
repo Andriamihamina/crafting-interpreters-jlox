@@ -1,8 +1,8 @@
-package dev.yannis.lox;
+package com.sebastienyannis.lox;
 
 public class Token {
     final TokenType type;
-    final String lexeme;
+    public final String lexeme;
     final Object literal;
     final int line;
 

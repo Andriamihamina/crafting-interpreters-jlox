@@ -1,11 +1,11 @@
-package dev.yannis.lox;
+package com.sebastienyannis.lox;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static dev.yannis.lox.TokenType.*;
+import static com.sebastienyannis.lox.TokenType.*;
 
 
 /*
@@ -119,7 +119,7 @@ public class Scanner {
                 else if (isAlpha(c)){
                     identifier();
                 }
-                 {
+                else {
                     Lox.error(line, "Unexpected character");
                 }
                 break;
